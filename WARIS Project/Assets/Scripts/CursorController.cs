@@ -9,6 +9,8 @@ public class CursorController : MonoBehaviour
 	private float cursorX;
 	private float cursorY;
 	private bool clicked;
+	private float texWidth;
+	private float texHeight;
 
 
 	// Use this for initialization
@@ -17,9 +19,11 @@ public class CursorController : MonoBehaviour
 		Screen.orientation = ScreenOrientation.LandscapeLeft;
 
 		speed = 8.0f;
-		cursorX = Screen.width/2;
-		cursorY = Screen.height/2;
+		cursorX = Screen.width/4;
+		cursorY = Screen.height/4;
 		clicked = false;
+		texWidth = cursorTexture.width / 3f;
+		texHeight = cursorTexture.height / 3f;
 	}
 
 	public bool CursorClicked()
@@ -41,7 +45,8 @@ public class CursorController : MonoBehaviour
 	void OnGUI()
 	{
 		GUI.depth = 0;
-		GUI.DrawTexture (new Rect (cursorX, cursorY, cursorTexture.width/3f, cursorTexture.height/3f), cursorTexture);
+		GUI.DrawTexture (new Rect (cursorX, cursorY, texWidth, texHeight), cursorTexture);
+		GUI.DrawTexture (new Rect (cursorX+Screen.width/2, cursorY, texWidth, texHeight), cursorTexture); //draws a duplicate cursor on the other half of screen
 	}
 
 	void UpdateCursor()
@@ -54,8 +59,9 @@ public class CursorController : MonoBehaviour
 			else
 				cursorX -= speed;
 
-			if(cursorX > Screen.width)
-				cursorX = Screen.width;
+			//restricts cursor X position to its half of the screen
+			if(cursorX > Screen.width/2 - texWidth)
+				cursorX = Screen.width/2 - texWidth;
 			else if(cursorX < 0.0f)
 				cursorX = 0.0f;
 		}
@@ -66,8 +72,9 @@ public class CursorController : MonoBehaviour
 			else
 				cursorY -= speed;
 
-			if(cursorY > Screen.height)
-				cursorY = Screen.height;
+			//restricts cursor Y position to height of the screen
+			if(cursorY > Screen.height - texHeight)
+				cursorY = Screen.height - texHeight;
 			else if(cursorY < 0.0f)
 				cursorY = 0.0f;
 		}

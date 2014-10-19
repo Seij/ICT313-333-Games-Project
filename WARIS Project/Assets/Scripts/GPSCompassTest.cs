@@ -10,6 +10,6 @@ public class GPSCompassTest : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.rotation = Quaternion.Euler(0, -Input.compass.trueHeading, 0);
+		transform.rotation = Quaternion.Euler(90, -Input.compass.trueHeading, 0);
 	}
 }
